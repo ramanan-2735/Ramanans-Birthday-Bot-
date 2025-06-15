@@ -67,7 +67,10 @@ today = dt.datetime.now()
 today_date = today.day
 today_month = today.month
 
-all_birthdays = (pd.read_csv("birthdays.csv"))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+birthdays_path = os.path.join(script_dir, "birthdays.csv")
+
+all_birthdays = pd.read_csv(birthdays_path)
 birthday_dict = {
     (row.month, row.day): (row.naam,row.email,row.year,row.month,row.day)
     for index, row in all_birthdays.iterrows()
