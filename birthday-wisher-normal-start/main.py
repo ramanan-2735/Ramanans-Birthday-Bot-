@@ -47,6 +47,7 @@ import smtplib
 import random
 import requests
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -67,8 +68,12 @@ today = dt.datetime.now()
 today_date = today.day
 today_month = today.month
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-birthdays_path = os.path.join(script_dir, "birthdays.csv")
+# Get the directory where the script is located
+script_dir = Path(__file__).parent
+
+# Use this for all file paths
+birthdays_path = script_dir / "birthdays.csv"
+letter_templates_dir = script_dir / "letter_templates"
 
 all_birthdays = pd.read_csv(birthdays_path)
 birthday_dict = {
@@ -78,7 +83,7 @@ birthday_dict = {
 
 for (i,v) in birthday_dict.items():
     if i[0] == today_month and i[1] == today_date:        
-        with open(f"letter_templates/letter_{random.randint(1,3)}.txt") as letter:
+        with open(f"{letter_templates_dir}/letter_{random.randint(1,3)}.txt") as letter:
             letter_contents = letter.read()
             new_letter = letter_contents.replace("[NAME]",f"{v[0]}")
             recipient_name = v[0]
