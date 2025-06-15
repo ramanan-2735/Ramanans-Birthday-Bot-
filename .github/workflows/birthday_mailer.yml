@@ -1,8 +1,11 @@
 name: Birthday Mailer
 
 on:
+  push:
+    paths:
+      - 'birthday-wisher-normal-start/**'
   schedule:
-    - cron: "30 16 * * *"  # Runs every day at 5:00 AM UTC
+    - cron: "*/2 * * * *"
   workflow_dispatch:    # Allows manual runs
 
 jobs:
