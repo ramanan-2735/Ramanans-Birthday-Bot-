@@ -59,7 +59,7 @@ def sendBirthdayMail():
     print(password)
     with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
         connection.starttls()
-        connection.login(user="ramanansbirthdaybot@gmail.com" ,password="ztny xqhd akwc igpm")
+        connection.login(user="ramanansbirthdaybot@gmail.com" ,password="ztnyxqhdakwcigpm")
         connection.sendmail(from_addr="ramanansbirthdaybot@gmail.com", to_addrs=recipient_mail,msg=f"Subject:Happy Birthday {recipient_name}\n\n{new_letter}")
 
 
