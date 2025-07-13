@@ -76,13 +76,17 @@ birthdays_path = script_dir / "birthdays.csv"
 letter_templates_dir = script_dir / "letter_templates"
 
 all_birthdays = pd.read_csv(birthdays_path)
+# print(all_birthdays)
 birthday_dict = {
-    (row.month, row.day): (row.naam,row.email,row.year,row.month,row.day)
+    (row.month, row.day, row.naam, row.email): (row.naam,row.email,row.year,row.month,row.day)
     for index, row in all_birthdays.iterrows()
 }
+# print(birthday_dict)
 
 for (i,v) in birthday_dict.items():
-    if i[0] == today_month and i[1] == today_date:        
+    print(i)
+    print(v)
+    if i[0] == today_month and i[1] == today_date:         
         with open(f"{letter_templates_dir}/letter_{random.randint(1,3)}.txt") as letter:
             letter_contents = letter.read()
             new_letter = letter_contents.replace("[NAME]",f"{v[0]}")
