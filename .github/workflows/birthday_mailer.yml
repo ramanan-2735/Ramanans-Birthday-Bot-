@@ -2,7 +2,7 @@ name: Birthday Mailer
 
 on:
   schedule:
-    - cron: "*/59 * * * *"  # Runs every 2 minutes
+    - cron: "35 18 * * *"  # Runs at 6:35 PM UTC, which is 12:05 AM IST
   workflow_dispatch:
 
 jobs:
