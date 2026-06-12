@@ -32,5 +32,7 @@ jobs:
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          TEMPLATE_SOURCE: ${{ secrets.TEMPLATE_SOURCE }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python birthday-wisher-normal-start/main.py
