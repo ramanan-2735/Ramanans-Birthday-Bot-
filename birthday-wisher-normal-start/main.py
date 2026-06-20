@@ -373,6 +373,39 @@ def send_birthday_email(
         return False
 
 
+def send_notification_email(
+    connection: smtplib.SMTP,
+    sender_email: str,
+    recipient_email: str,
+    names: list[str]
+) -> bool:
+    """
+    Sends a combined notification email with a list of today's birthdays.
+    """
+    try:
+        logging.info(f"Preparing notification email for {recipient_email}...")
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = recipient_email
+        
+        names_str = ", ".join(names)
+        msg["Subject"] = Header(f"Hey, it's {names_str}'s birthday! Wish them now", "utf-8")
+        
+        body = f"Hey,\n\nIt's {names_str}'s birthday today! The wisher bot has successfully sent them their birthday greetings.\n\nDon't forget to wish them!\n\nBest,\nYour Birthday Bot"
+        msg.attach(MIMEText(body, "plain", "utf-8"))
+
+        connection.sendmail(
+            from_addr=sender_email,
+            to_addrs=recipient_email,
+            msg=msg.as_string()
+        )
+        logging.info("Notification email successfully sent.")
+        return True
+    except Exception as e:
+        logging.error(f"Failed to send notification email: {e}")
+        return False
+
+
 def main() -> None:
     """Main execution function."""
     setup_logging()
@@ -426,6 +459,7 @@ def main() -> None:
     try:
         with create_smtp_connection(email, password) as connection:
             success_count = 0
+            wished_names = []
             for person in today_birthdays:
                 name = person["naam"]
                 mail = person["email"]
@@ -437,6 +471,11 @@ def main() -> None:
                 # Send email
                 if send_birthday_email(connection, email, name, mail, message):
                     success_count += 1
+                    wished_names.append(name)
+            
+            # Send notification to ramanan2735@gmail.com
+            if wished_names:
+                send_notification_email(connection, email, "ramanan2735@gmail.com", wished_names)
             
             logging.info(f"Execution complete. Successfully sent {success_count}/{len(today_birthdays)} emails.")
     except Exception as e:
